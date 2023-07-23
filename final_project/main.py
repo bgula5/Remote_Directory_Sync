@@ -17,10 +17,9 @@ conn = pyodbc.connect(r'Driver={SQL Server};'
 
 
 def main():
-    dir_name = r'LOCAL_FOLDER'
-    recovery_dir = r'D:\recovery'
+    dir_name = r'INPUT_DIR_NAME'
+    recovery_dir = r'INPUT_RECOVERY_DIR'
     current_files = put_into_df(get_list_of_files(dir_name))
-    recovery_files = put_into_df(get_list_of_files(recovery_dir))
     new_files = check_record(current_files, recovery_dir)
     if not new_files:
         print("No Changes")
@@ -85,8 +84,6 @@ def check_record(df, recovery_dir):
             if i in set(record_df.index.values):
                 if not compare_df.loc[i]['Date_Modified'] == record_df.loc[i]['Date_Modified']:
                     diff.append(i)
-                #print(compare_df.loc[i]['Date_Modified'])
-                #print(record_df.loc[i]['Date_Modified'])
             else:
                 diff.append(i)
 
